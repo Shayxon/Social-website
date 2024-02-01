@@ -1,6 +1,8 @@
 from django.urls import path, include
 from . import views
 from django.contrib.auth import views as auth_views
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     # path('login/', auth_views.LoginView.as_view(), name='login'),
@@ -14,4 +16,8 @@ urlpatterns = [
     path('', include('django.contrib.auth.urls')),
     path('register/', views.user_register, name='register'),
     path('', views.dashboard, name='dashboard'),
+    path('edit/', views.edit_profile, name='edit')
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
