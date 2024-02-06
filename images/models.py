@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
 from django.utils.text import slugify
+from django.core.files.base import ContentFile
+import requests
 
 class Image(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='user_images', on_delete=models.CASCADE)
@@ -18,7 +20,17 @@ class Image(models.Model):
         ]
         ordering = ['-created']
 
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.title)
-        super().save(*args, **kwargs)
+    def save(self, force_insert = False, force_update = False, commit = True):
+        image = super().save(commit=False)
+        image_url = self.cleaned_data['url']
+        name = slugify(self.title)
+        extension = image_url.rsplit('.', 1)[1].lower()
+        image_name = f"{name}.{extension}"
+        response = requests.get(image_url)
+
+        image.image.save(image_name, ContentFile(response.content), save=False)
+
+        if commit:
+            image.save()
+        return image        
+        
