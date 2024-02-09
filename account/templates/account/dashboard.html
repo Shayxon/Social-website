@@ -1,7 +1,11 @@
-{% extends "base.html" %}
-{% block title %}Dashboard{% endblock %}
+{% extends 'base.html' %}
+
+{% block title %}
+    Dashboard
+{% endblock %}
+
 {% block content %}
-<h1>Dashboard</h1>
-<p>Welcome to your dashboard.You can <a href="{% url 'edit' %}">edit your
-    profile</a> or <a href="{% url 'password_change' %}">change your password</a>.</p>
+    <h1 style="margin-top: 25px; margin-left: 25px;">This is Dashboard!</h1>
+    <p style="margin-top: 15px; margin-left: 25px; font-size: 20px; font-weight: 500;">Change Your Password: <a href="{% url 'password_change' %}" style="text-decoration: none; font-size: 24px; font-weight: 500;">Change</a></p>
+    <p style="margin-top: 15px; margin-left: 25px; font-size: 20px; font-weight: 500;">Edit Your Profile: <a href="{% url 'edit' %}" style="text-decoration: none; font-size: 24px; font-weight: 500;">Edit</a></p>
 {% endblock %}
