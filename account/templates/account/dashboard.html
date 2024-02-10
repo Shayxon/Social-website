@@ -16,12 +16,13 @@ Dashboard
 <div class="posts">
     {% for post in posts %}
     <div class="post">
-        <a href="#">
+        <a href="{% url 'edit_post' post.id %}">
             <h2>{{ post.title }}</h2>
             <img src="/media/{{ post.image }}" alt="{{ post.title }}">
         </a>
         <p class="author">Author: {{ post.author }}</p>
-        <p class="publish-date">Published: {{ post.publish_date }}</p>
+        <p class="publish-date">Published: {{ post.publish }}</p>
+        <h3>Status: {{post.status}}</h3>
     </div>
     {% endfor %}
 </div>

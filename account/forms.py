@@ -1,6 +1,6 @@
 from django import forms 
 from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile, Post
 
 class RegisterForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -51,3 +51,12 @@ class ProfileEditForm(forms.ModelForm):
         model = Profile
         fields = ['date_of_birth', 'photo']
                 
+class PostEditForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(PostEditForm, self).__init__(*args, **kwargs)
+        self.fields['title'].required = True
+        self.fields['image'].required = True
+        self.fields['body'].required = True
+    class Meta:
+        model = Post
+        fields = ['title', 'image' ,'body', 'status']

@@ -139,7 +139,7 @@ body {
 
 .post {
     background-color: #fff;
-    width: calc(33% - 20px);
+    width: calc(31% - 20px);
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 10px;

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Blog Posts
+{% endblock %}
+
+{% block content %}
+<h1 style="margin-top: 25px; margin-left: 25px;">Edit:</h1>
+<form action="{% url 'edit_post' post_id %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form.media}}
+    {{form.as_p}}
+    <input type="submit" value="Save">
+</form>
+{% endblock %}
