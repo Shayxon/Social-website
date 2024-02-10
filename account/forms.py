@@ -28,7 +28,6 @@ class RegisterForm(forms.ModelForm):
             raise forms.ValidationError("Email already exists")
         return data 
 
-
 class UserEditForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         # first call parent's constructor
@@ -60,3 +59,14 @@ class PostEditForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['title', 'image' ,'body', 'status']
+
+
+class PostCreateForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(PostCreateForm, self).__init__(*args, **kwargs)
+        self.fields['title'].required = True
+        self.fields['image'].required = True
+        self.fields['body'].required = True
+    class Meta:
+        model = Post
+        fields = ['title', 'image' ,'body', 'status']      

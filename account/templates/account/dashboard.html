@@ -11,6 +11,8 @@ Dashboard
 </p>
 <p style="margin-top: 15px; margin-left: 25px; font-size: 20px; font-weight: 500;">Edit Your Profile: <a
         href="{% url 'edit' %}" style="text-decoration: none; font-size: 24px; font-weight: 500;">Edit</a></p>
+<p style="margin-top: 15px; margin-left: 25px; font-size: 20px; font-weight: 500;">Create Post: <a
+            href="{% url 'create_post' %}" style="text-decoration: none; font-size: 24px; font-weight: 500;">Create</a></p>
 <br>
 <h1 style="margin-top: 25px; margin-left: 25px;">My Posts:</h1>
 <div class="posts">
@@ -22,7 +24,7 @@ Dashboard
         </a>
         <p class="author">Author: {{ post.author }}</p>
         <p class="publish-date">Published: {{ post.publish }}</p>
-        <h3>Status: {{post.status}}</h3>
+        <h3>Status: {{post.status}}</h3><a href="{% url 'delete_post' post.id %}">Delete</a>
     </div>
     {% endfor %}
 </div>
