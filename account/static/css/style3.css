@@ -8,13 +8,13 @@ body {
     background-color: #dbd3d8;
 }
 
-.menu{
+.menu {
     position: sticky;
     background-color: #000000;
     height: 80px;
 }
 
-.menu a{
+.menu a {
     position: absolute;
     color: #fff;
     font-size: 24px;
@@ -35,7 +35,7 @@ body {
     margin-top: 150px;
 }
 
-.form  form label{
+.form form label {
     display: block;
     margin-left: 15px;
     margin-top: 20px;
@@ -50,8 +50,16 @@ body {
     margin-top: 15px;
 }
 
-.form form #id_username, .form form #id_password, .form form #id_old_password, .form form #id_new_password1, .form form #id_new_password2,
-.form form #id_email, .form form #id_first_name, .form form #id_password1, .form form #id_password2, .form form #id_date_of_birth {
+.form form #id_username,
+.form form #id_password,
+.form form #id_old_password,
+.form form #id_new_password1,
+.form form #id_new_password2,
+.form form #id_email,
+.form form #id_first_name,
+.form form #id_password1,
+.form form #id_password2,
+.form form #id_date_of_birth {
     font-size: 18px;
     font-weight: 400;
     margin-left: 15px;
@@ -101,7 +109,7 @@ body {
     margin-left: 25px;
 }
 
-.loggedoutp a{
+.loggedoutp a {
     text-decoration: none;
     font-size: 20px;
     font-weight: 400;
@@ -119,7 +127,7 @@ body {
     list-style-type: none;
 }
 
-.form form #id_photo{
+.form form #id_photo {
     font-size: 18px;
     font-weight: 400;
     margin-left: 15px;
@@ -157,8 +165,38 @@ body {
     border: 1px solid black;
 }
 
-.post p.author, .post p.publish-date {
+.post p.author,
+.post p.publish-date {
     font-style: italic;
     color: #888;
     margin: 5px 0;
+}
+
+article {
+    padding: 20px;
+}
+
+article h2 {
+    color: #333;
+}
+
+.meta {
+    color: #888;
+    font-style: italic;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
 }

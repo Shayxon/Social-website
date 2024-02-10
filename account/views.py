@@ -9,6 +9,11 @@ def dashboard(request):
     return render(request, 'account/dashboard.html', {'posts':posts})
 
 @login_required
+def post_detail(request, post_id):
+    post = get_object_or_404(Post, id=post_id, status=Post.Status.PUBLISHED)
+    return render(request, 'account/post-detail.html', {'post':post})
+
+@login_required
 def blog_posts(request):
     posts = Post.published.all()
     return render(request, 'account/blog-posts.html', {'posts':posts})

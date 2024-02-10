@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{post.title}}
+{% endblock %}
+
+{% block content %}
+<article>
+    <h2>{{ post.title }}</h2>
+    <img src="/media/{{ post.image }}" alt="{{ post.title }}">
+    <p class="meta">Published on {{ post.publish_date|date:"F d, Y" }} by {{ post.author }}</p>
+    <div class="content">
+        {{ post.body|safe }}
+    </div>
+</article>
+{% endblock %}
