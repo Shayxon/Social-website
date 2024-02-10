@@ -1,11 +1,28 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Dashboard
+Dashboard
 {% endblock %}
 
 {% block content %}
-    <h1 style="margin-top: 25px; margin-left: 25px;">This is Dashboard!</h1>
-    <p style="margin-top: 15px; margin-left: 25px; font-size: 20px; font-weight: 500;">Change Your Password: <a href="{% url 'password_change' %}" style="text-decoration: none; font-size: 24px; font-weight: 500;">Change</a></p>
-    <p style="margin-top: 15px; margin-left: 25px; font-size: 20px; font-weight: 500;">Edit Your Profile: <a href="{% url 'edit' %}" style="text-decoration: none; font-size: 24px; font-weight: 500;">Edit</a></p>
+<h1 style="margin-top: 25px; margin-left: 25px;">This is Dashboard!</h1>
+<p style="margin-top: 15px; margin-left: 25px; font-size: 20px; font-weight: 500;">Change Your Password: <a
+        href="{% url 'password_change' %}" style="text-decoration: none; font-size: 24px; font-weight: 500;">Change</a>
+</p>
+<p style="margin-top: 15px; margin-left: 25px; font-size: 20px; font-weight: 500;">Edit Your Profile: <a
+        href="{% url 'edit' %}" style="text-decoration: none; font-size: 24px; font-weight: 500;">Edit</a></p>
+<br>
+<h1 style="margin-top: 25px; margin-left: 25px;">My Posts:</h1>
+<div class="posts">
+    {% for post in posts %}
+    <div class="post">
+        <a href="#">
+            <h2>{{ post.title }}</h2>
+            <img src="/media/{{ post.image }}" alt="{{ post.title }}">
+        </a>
+        <p class="author">Author: {{ post.author }}</p>
+        <p class="publish-date">Published: {{ post.publish_date }}</p>
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}
