@@ -14,8 +14,8 @@
     </div>
     <br>
     <p class="count">{{post.likes.count}}</p>
-    <a href="#" data-id="{{post.id}}" data-action="{% if request.user in post.likes %}unlike{% else %}like{% endif %}"
-        class="like">{% if request.user in post.likes %}
+    <a href="#" data-id="{{post.id}}" data-action="{% if request.user in post.likes.all %}unlike{% else %}like{% endif %}"
+        class="like">{% if request.user in post.likes.all %}
             Unlike
         {% else %}
             like
