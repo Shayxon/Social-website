@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+from django.http import JsonResponse
 from .forms import RegisterForm, UserEditForm, ProfileEditForm, PostEditForm, PostCreateForm
 from .models import Profile, Post
 
@@ -65,6 +67,21 @@ def edit(request):
         profile_form = ProfileEditForm(instance=request.user.profile)
 
     return render(request, 'account/edit.html', {'user_form': user_form, 'profile_form': profile_form})
+
+@login_required
+@require_POST
+def like(request):
+    post_id = request.POST.get('id')
+    action = request.POST.get('action')
+    if post_id and action:
+        post = get_object_or_404(Post, id=post_id, status=Post.Status.PUBLISHED)
+
+        if action == 'like':
+            post.likes.add(request.user)
+        else:
+            post.likes.remove(request.user)
+        return JsonResponse({'status':'ok'})
+    return JsonResponse({'status':'error'})
 
 def register(request):
     if request.method == 'POST':

@@ -2,27 +2,40 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/style3.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
     <title>{% block title %}{% endblock %}</title>
 </head>
+
 <body>
     <div class="menu">
         {% if user.is_authenticated %}
-            <form action="{% url 'logout' %}" method="post">
-                {% csrf_token %}
-                <input type="submit" value="Logout">
-            </form> 
-            <a href="{% url 'blog_posts' %}" style="right: 200px;">Blog Posts</a>
-            <a href="{% url 'dashboard' %}" style="right: 400px;">Dashboard</a>
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Logout">
+        </form>
+        <a href="{% url 'blog_posts' %}" style="right: 200px;">Blog Posts</a>
+        <a href="{% url 'dashboard' %}" style="right: 400px;">Dashboard</a>
         {% else %}
-            <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'login' %}">Login</a>
         {% endif %}
     </div>
     {% block content %}
-        
+
     {% endblock %}
+
+    <script>
+        const csrftoken = Cookies.get('csrftoken');
+        document.addEventListener('DOMContentLoaded', (event) => {
+
+            {% block domready %}
+            {% endblock %}
+        })
+    </script>
 </body>
+
 </html>

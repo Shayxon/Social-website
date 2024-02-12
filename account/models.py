@@ -27,6 +27,7 @@ class Post(models.Model):
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    likes = models.ManyToManyField(User, related_name='likes')
     status = models.CharField(max_length=2, choices=Status, default=Status.DRAFT)
 
     objects = models.Manager()
