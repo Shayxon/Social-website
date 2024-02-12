@@ -5,9 +5,10 @@ Create Post
 {% endblock %}
 
 {% block content %}
-<h1 style="margin-top: 25px; margin-left: 25px;">Edit:</h1>
+<h1 style="margin-top: 25px; margin-left: 25px;">Create Post:</h1>
 <form action="{% url 'create_post' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
+    {{form.media}}
     {{form.as_p}}
     <input type="submit" value="Create">
 </form>
