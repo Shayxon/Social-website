@@ -4,6 +4,7 @@ from django.views.decorators.http import require_POST
 from django.http import JsonResponse
 from .forms import RegisterForm, UserEditForm, ProfileEditForm, PostEditForm, PostCreateForm, CommentForm
 from .models import Profile, Post, Comment
+from taggit.models import Tag
 
 @login_required
 def dashboard(request):
@@ -27,9 +28,13 @@ def post_detail(request, post_id):
     return render(request, 'account/post-detail.html', {'post':post, 'form':form, 'comments':comments})
 
 @login_required
-def blog_posts(request):
-    posts = Post.published.all()
-    return render(request, 'account/blog-posts.html', {'posts':posts})
+def blog_posts(request, post_tag=None):
+    if post_tag:
+        tag = get_object_or_404(Tag, slug=post_tag)
+        posts = Post.published.filter(tags__in=[tag])
+    else:     
+        posts = Post.published.all()
+    return render(request, 'account/blog-posts.html', {'posts':posts, "post_tag":post_tag})
 
 @login_required
 def edit_post(request, post_id):

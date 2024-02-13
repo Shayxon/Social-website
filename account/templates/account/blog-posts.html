@@ -5,7 +5,11 @@ Blog Posts
 {% endblock %}
 
 {% block content %}
-<h1 style="margin-top: 25px; margin-left: 25px;">Posts:</h1>
+<h1 style="margin-top: 25px; margin-left: 25px;">{% if post_tag %}
+    Posts with {{post_tag}} tag:
+{% else %}
+    Posts:
+{% endif %}</h1>
 <div class="posts">
     {% for post in posts %}
     <div class="post">
@@ -13,6 +17,9 @@ Blog Posts
             <h2>{{ post.title }}</h2>
             <img src="/media/{{ post.image }}" alt="{{ post.title }}">
         </a>
+        <h4>Tags: {% for tag in post.tags.all %}
+            <a href="{% url 'post_tag' tag %}">{{tag}}</a>
+        {% endfor %}</h4>
         <p class="author">Author: {{ post.author }}</p>
         <p class="publish-date">Published: {{ post.publish }}</p>
     </div>

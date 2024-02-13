@@ -58,13 +58,13 @@ class PostEditForm(forms.ModelForm):
         self.fields['body'].required = True
     class Meta:
         model = Post
-        fields = ['title', 'image' ,'body', 'status']
+        fields = ['title', 'image' ,'body', 'status', 'tags']
 
 
 class PostCreateForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['title', 'image' ,'body', 'status']      
+        fields = ['title', 'image' ,'body', 'status', 'tags']      
 
 
 class CommentForm(forms.ModelForm):

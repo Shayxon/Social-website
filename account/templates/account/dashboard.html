@@ -22,6 +22,7 @@ Dashboard
             <h2>{{ post.title }}</h2>
             <img src="/media/{{ post.image }}" alt="{{ post.title }}">
         </a>
+        <h4>Tags: {{post.tags.all|join:", "}}</h4>
         <p class="author">Author: {{ post.author }}</p>
         <p class="publish-date">Published: {{ post.publish }}</p>
         <h3>Status: {{post.status}}</h3><a href="{% url 'delete_post' post.id %}">Delete</a>

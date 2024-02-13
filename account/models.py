@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django_ckeditor_5.fields import CKEditor5Field
+from taggit.managers import TaggableManager
 
 class PublishedManager(models.Manager):
     def get_queryset(self) -> models.QuerySet:
@@ -44,6 +45,7 @@ class Post(models.Model):
     updated = models.DateTimeField(auto_now=True)
     likes = models.ManyToManyField(User, related_name='likes')
     comments = models.ManyToManyField(Comment, related_name='comments')
+    tags = TaggableManager()
     status = models.CharField(max_length=2, choices=Status, default=Status.DRAFT)
 
     objects = models.Manager()
