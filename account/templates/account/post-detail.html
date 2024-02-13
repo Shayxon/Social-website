@@ -14,13 +14,50 @@
     </div>
     <br>
     <p class="count">{{post.likes.count}}</p>
-    <a href="#" data-id="{{post.id}}" data-action="{% if request.user in post.likes.all %}unlike{% else %}like{% endif %}"
-        class="like">{% if request.user in post.likes.all %}
+    <a href="#" data-id="{{post.id}}"
+        data-action="{% if request.user in post.likes.all %}unlike{% else %}like{% endif %}" class="like">{% if request.user in post.likes.all %}
             Unlike
         {% else %}
             like
         {% endif %}</a>
+    <br>
+    <br>
+    <h2>Comments:</h2>
+    <br>
+    <form method="post" action="{% url 'post_detail' post.id %}">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit">Post Comment</button>
+    </form>
+
+    <div class="comments">
+        {% for comment in comments %}
+        <div class="comment">
+            <div class="comment-info">
+                <span class="username">{{ comment.user.username }}</span>
+                <span class="created-date">{{ comment.created }}</span>
+            </div>
+            <div class="comment-body">{{ comment.body }}</div>
+            <br>
+            <div class="comment-actions">
+                <form action="{% url 'comment_like' comment.id post.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">{% if request.user in comment.likes.all %}
+                        unlike
+                    {% else %}
+                        like
+                    {% endif %}</button>
+                </form>
+                <span class="like-count">{{ comment.likes.count }}</span>
+            </div>
+        </div>
+        {% empty %}
+        <p>No comments yet.</p>
+        {% endfor %}
+    </div>
+
 </article>
+
 {% endblock %}
 
 {% block domready %}

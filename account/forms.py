@@ -1,6 +1,6 @@
 from django import forms 
 from django.contrib.auth.models import User
-from .models import Profile, Post
+from .models import Profile, Post, Comment
 
 class RegisterForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -65,3 +65,9 @@ class PostCreateForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['title', 'image' ,'body', 'status']      
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['body']

@@ -200,3 +200,50 @@ img {
     height: auto;
     margin-bottom: 20px;
 }
+
+/* style.css */
+
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.comments {
+    margin-top: 20px;
+}
+
+.comment {
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.comment-info {
+    margin-bottom: 10px;
+}
+
+.username {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.created-date {
+    color: #888;
+}
+
+.comment-body {
+    white-space: pre-wrap;
+}
+
+.comment-actions {
+    margin-top: 10px;
+}
+
+.like-count {
+    margin-left: 10px;
+    color: #888;
+}

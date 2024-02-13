@@ -14,6 +14,21 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     date_of_birth = models.DateField(null=True, blank=True)
 
+
+class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
+    body = models.TextField()
+    created = models.DateTimeField()
+    updated = models.DateTimeField(auto_now=True)
+    likes = models.ManyToManyField(User, related_name='comment_likes')
+
+    def save(self, *args, **kwargs):
+        if not self.id:  # Only set the creation time if the object is being created for the first time
+            timezone.activate('Asia/Tashkent')
+            self.created = timezone.now()
+        super().save(*args, **kwargs)
+
+
 class Post(models.Model):
 
     class Status(models.TextChoices):
@@ -28,6 +43,7 @@ class Post(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     likes = models.ManyToManyField(User, related_name='likes')
+    comments = models.ManyToManyField(Comment, related_name='comments')
     status = models.CharField(max_length=2, choices=Status, default=Status.DRAFT)
 
     objects = models.Manager()

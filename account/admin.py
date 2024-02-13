@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Profile, Post
+from .models import Profile, Post, Comment
 
 @admin.register(Profile)
 class AdminProfile(admin.ModelAdmin):
@@ -12,3 +12,10 @@ class AdminPost(admin.ModelAdmin):
     search_fields = ['title', 'body']
     list_filter = ['author', 'status']
     raw_id_fields = ['author']
+
+@admin.register(Comment)
+class AdminPost(admin.ModelAdmin):
+    list_display = ['user', 'created']    
+    search_fields = ['user', 'body']
+    list_filter = ['user']
+    raw_id_fields = ['user']    

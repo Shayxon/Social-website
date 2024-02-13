@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse
-from .forms import RegisterForm, UserEditForm, ProfileEditForm, PostEditForm, PostCreateForm
-from .models import Profile, Post
+from .forms import RegisterForm, UserEditForm, ProfileEditForm, PostEditForm, PostCreateForm, CommentForm
+from .models import Profile, Post, Comment
 
 @login_required
 def dashboard(request):
@@ -13,7 +13,18 @@ def dashboard(request):
 @login_required
 def post_detail(request, post_id):
     post = get_object_or_404(Post, id=post_id, status=Post.Status.PUBLISHED)
-    return render(request, 'account/post-detail.html', {'post':post})
+    comments = post.comments.all()
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            new_comment = form.save(commit=False)
+            new_comment.user = request.user
+            new_comment.save()
+            post.comments.add(new_comment)
+            return redirect('post_detail', post_id=post_id)
+    else:
+        form = CommentForm()    
+    return render(request, 'account/post-detail.html', {'post':post, 'form':form, 'comments':comments})
 
 @login_required
 def blog_posts(request):
@@ -23,6 +34,7 @@ def blog_posts(request):
 @login_required
 def edit_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
+    comments = post.comments.all()
     if request.method == 'POST':
         form = PostEditForm(instance=post, data=request.POST, files=request.FILES)
         if form.is_valid():
@@ -30,7 +42,7 @@ def edit_post(request, post_id):
             return redirect('edit_post', post_id)
     else:
         form = PostEditForm(instance=post)    
-    return render(request, 'account/edit-post.html', {'form':form, 'post_id':post_id})
+    return render(request, 'account/edit-post.html', {'form':form, 'post_id':post_id, 'comments':comments})
 
 @login_required
 def delete_post(request, post_id):
@@ -82,6 +94,27 @@ def like(request):
             post.likes.remove(request.user)
         return JsonResponse({'status':'ok'})
     return JsonResponse({'status':'error'})
+
+@login_required
+@require_POST
+def comment_like(request, comment_id, post_id):
+    user = request.user
+    comment = get_object_or_404(Comment, id=comment_id)
+    if user in comment.likes.all():
+        comment.likes.remove(user)
+    else:
+        comment.likes.add(user)
+    return redirect('post_detail', post_id=post_id)        
+
+
+@login_required
+@require_POST
+def delete_comment(request, comment_id, post_id):
+    post = get_object_or_404(Post, id=post_id, status=Post.Status.PUBLISHED)
+    comment = get_object_or_404(Comment, id=comment_id)
+    post.comments.remove(comment)
+    return redirect('edit_post', post_id)  
+
 
 def register(request):
     if request.method == 'POST':

@@ -12,4 +12,24 @@ Blog Posts
     {{form.as_p}}
     <input type="submit" value="Save">
 </form>
+<div class="comments">
+    {% for comment in comments %}
+    <div class="comment">
+        <div class="comment-info">
+            <span class="username">{{ comment.user.username }}</span>
+            <span class="created-date">{{ comment.created }}</span>
+        </div>
+        <div class="comment-body">{{ comment.body }}</div>
+        <br>
+        <div class="comment-actions">
+            <span class="like-count">{{ comment.likes.count }}</span>
+        </div>
+    </div>
+    <form action="{% url 'delete_comment' comment.id post_id %}" method="post">{% csrf_token %}<input type="submit" value="delete"></form>
+    {% empty %}
+    <p>No comments yet.</p>
+    {% endfor %}
+</div>
+<br>
+<br>
 {% endblock %}
