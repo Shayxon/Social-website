@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from .forms import RegisterForm, UserEditForm, ProfileEditForm, PostEditForm, PostCreateForm, CommentForm
 from .models import Profile, Post, Comment
 from taggit.models import Tag
+from django.db.models import Count
 
 @login_required
 def dashboard(request):
@@ -14,7 +15,10 @@ def dashboard(request):
 @login_required
 def post_detail(request, post_id):
     post = get_object_or_404(Post, id=post_id, status=Post.Status.PUBLISHED)
+    tags = post.tags.values_list('id', flat=True)
     comments = post.comments.all()
+    similar_posts = Post.published.filter(tags__in=tags).exclude(id=post.id)
+    similar_posts = similar_posts.annotate(same_tags = Count('tags')).order_by('-same_tags', '-publish')[:4]
     if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -25,7 +29,7 @@ def post_detail(request, post_id):
             return redirect('post_detail', post_id=post_id)
     else:
         form = CommentForm()    
-    return render(request, 'account/post-detail.html', {'post':post, 'form':form, 'comments':comments})
+    return render(request, 'account/post-detail.html', {'post':post, 'form':form, 'comments':comments, 'similar_posts':similar_posts})
 
 @login_required
 def blog_posts(request, post_tag=None):

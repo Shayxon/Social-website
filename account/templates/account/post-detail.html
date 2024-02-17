@@ -21,6 +21,13 @@
             like
         {% endif %}</a>
     <br>
+    <h3>Similar Posts:</h3>
+    {% for similar_post in similar_posts %}
+        <div class="post">
+            <h5><a href="{% url 'post_detail' similar_post.id %}">{{similar_post.title}}</a></h5>
+            <p>{{similar_post.body|truncatewords:12|safe}}</p>
+        </div>
+    {% endfor %}
     <br>
     <h2>Comments:</h2>
     <br>
