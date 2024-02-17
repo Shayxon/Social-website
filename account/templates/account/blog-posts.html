@@ -5,6 +5,14 @@ Blog Posts
 {% endblock %}
 
 {% block content %}
+<h2 style="margin-top: 25px; margin-left: 25px;">Search:</h2>
+<form action="{% url 'blog_posts' %}" method="get">
+    {{form.as_p}}
+    <input type="submit" value="Search">
+</form>
+{% if query %}
+    <h3>Searched by {{query}}</h3>
+{% endif %}
 <h1 style="margin-top: 25px; margin-left: 25px;">{% if post_tag %}
     Posts with {{post_tag}} tag:
 {% else %}

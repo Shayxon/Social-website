@@ -2,10 +2,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse
-from .forms import RegisterForm, UserEditForm, ProfileEditForm, PostEditForm, PostCreateForm, CommentForm
+from .forms import RegisterForm, UserEditForm, ProfileEditForm, PostEditForm, PostCreateForm, CommentForm, SearchForm
 from .models import Profile, Post, Comment
 from taggit.models import Tag
 from django.db.models import Count
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 
 @login_required
 def dashboard(request):
@@ -33,12 +34,21 @@ def post_detail(request, post_id):
 
 @login_required
 def blog_posts(request, post_tag=None):
-    if post_tag:
+    form = SearchForm()
+    query = None
+    if 'query' in request.GET:
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            query = form.cleaned_data['query']
+            search_vector = SearchVector('title', 'body')
+            search_query = SearchQuery(query)
+            posts = Post.published.annotate(search=search_vector, rank=SearchRank(search_vector, search_query)).filter(search=search_query).order_by('-rank')
+    elif post_tag:
         tag = get_object_or_404(Tag, slug=post_tag)
         posts = Post.published.filter(tags__in=[tag])
     else:     
         posts = Post.published.all()
-    return render(request, 'account/blog-posts.html', {'posts':posts, "post_tag":post_tag})
+    return render(request, 'account/blog-posts.html', {'posts':posts, "post_tag":post_tag, 'query':query, 'form':form})
 
 @login_required
 def edit_post(request, post_id):

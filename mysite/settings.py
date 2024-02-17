@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_ckeditor_5',
     'taggit',
+    'django.contrib.postgres',
 ]
 
 MIDDLEWARE = [
