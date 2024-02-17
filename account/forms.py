@@ -1,6 +1,7 @@
 from django import forms 
 from django.contrib.auth.models import User
 from .models import Profile, Post, Comment
+from taggit.forms import TagWidget
 
 class RegisterForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -64,7 +65,10 @@ class PostEditForm(forms.ModelForm):
 class PostCreateForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['title', 'image' ,'body', 'status', 'tags']      
+        fields = ['title', 'image' ,'body', 'status', 'tags']     
+        widgets = {
+            'tags': TagWidget(),
+        } 
 
 
 class CommentForm(forms.ModelForm):
